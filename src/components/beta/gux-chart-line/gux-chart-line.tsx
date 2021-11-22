@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, JSX, Prop, Watch } from '@stencil/core';
+import { Component, Element, h, JSX, Prop, Watch } from '@stencil/core';
 import { EmbedOptions, VisualizationSpec } from 'vega-embed';
 
 import { trackComponent } from '../../../usage-tracking';
@@ -10,7 +10,8 @@ import { logError } from '../../../utils/error/log-error';
 const DEFAULT_COLOR_FIELD_NAME = 'category';
 @Component({
   styleUrl: 'gux-chart-line.less',
-  tag: 'gux-chart-line-beta'
+  tag: 'gux-chart-line-beta',
+  shadow: true
 })
 export class GuxLineChart {
   @Element()
@@ -171,18 +172,16 @@ export class GuxLineChart {
     this.visualizationSpec = spec;
   }
 
-  async componentWillRender(): Promise<void> {
+  async componentWillLoad(): Promise<void> {
     trackComponent(this.root);
     this.parseData();
   }
 
   render(): JSX.Element {
     return (
-      <Host>
-        <gux-visualization-beta
-          visualizationSpec={this.visualizationSpec}
-        ></gux-visualization-beta>
-      </Host>
+      <gux-visualization-beta
+        visualizationSpec={this.visualizationSpec}
+      ></gux-visualization-beta>
     );
   }
 }
